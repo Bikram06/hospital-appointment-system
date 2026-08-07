@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meridian Clinic — Appointments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="chart-clip" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#" data-nav="home">
+      <span class="brand-mark">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="13" cy="13" r="12" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M13 7V19M7 13H19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-text">Meridian<span class="brand-sub">Clinic</span></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <button class="nav-link" data-nav="doctors">Find a doctor</button>
+      <button class="nav-link" data-nav="dashboard" id="navDashboard" hidden>My chart</button>
+    </nav>
+
+    <div class="topbar-actions" id="authArea">
+      <button class="btn btn-ghost" data-nav="login">Log in</button>
+      <button class="btn btn-primary" data-nav="register">Register</button>
+    </div>
+    <div class="topbar-actions" id="userArea" hidden>
+      <span class="role-pill" id="roleBadge">PATIENT</span>
+      <span class="user-name" id="userName"></span>
+      <button class="btn btn-ghost" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+
+  <!-- HOME -->
+  <section class="view" id="view-home">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Appointment desk</p>
+        <h1>Book the next open slot, not the next available excuse.</h1>
+        <p class="hero-lead">Search doctors by specialty, see real open slots on their live schedule, and hold your place — no phone tree, no double-booking.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" data-nav="doctors">Find a doctor</button>
+          <button class="btn btn-outline btn-lg" data-nav="register">Create an account</button>
+        </div>
+      </div>
+      <div class="hero-chart" aria-hidden="true">
+        <div class="chart-card">
+          <div class="chart-card-head">
+            <span class="dot dot-confirmed"></span> Dr. A. Rao — Cardiology
+          </div>
+          <div class="chart-row"><span>Tue 9:00</span><span class="tag tag-booked">Booked</span></div>
+          <div class="chart-row"><span>Tue 9:30</span><span class="tag tag-open">Open</span></div>
+          <div class="chart-row"><span>Tue 10:00</span><span class="tag tag-open">Open</span></div>
+          <div class="chart-row"><span>Tue 10:30</span><span class="tag tag-booked">Booked</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="strip-item">
+        <span class="strip-num">01</span>
+        <h3>Pick a specialty</h3>
+        <p>Browse verified doctors by specialization and location within the practice.</p>
+      </div>
+      <div class="strip-item">
+        <span class="strip-num">02</span>
+        <h3>Choose an open slot</h3>
+        <p>Every slot shown is pulled live from the doctor's schedule — what you see is what's free.</p>
+      </div>
+      <div class="strip-item">
+        <span class="strip-num">03</span>
+        <h3>Hold your place</h3>
+        <p>Conflict-checked booking means two patients can never land the same slot.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGIN -->
+  <section class="view" id="view-login" hidden>
+    <div class="auth-wrap">
+      <form class="auth-card" id="loginForm">
+        <p class="eyebrow">Patients &amp; staff</p>
+        <h2>Log in</h2>
+        <label>Email
+          <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
+        </label>
+        <label>Password
+          <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••" />
+        </label>
+        <div class="form-error" id="loginError" hidden></div>
+        <button class="btn btn-primary btn-block" type="submit">Log in</button>
+        <p class="auth-switch">No account yet? <button type="button" class="link-btn" data-nav="register">Register</button></p>
+        <p class="auth-hint">Admin demo: admin@hospital.com / Admin@123</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section class="view" id="view-register" hidden>
+    <div class="auth-wrap">
+      <form class="auth-card" id="registerForm">
+        <p class="eyebrow">New here</p>
+        <h2>Create an account</h2>
+        <label>Full name
+          <input type="text" name="name" required placeholder="Jordan Patel" />
+        </label>
+        <label>Email
+          <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" />
+        </label>
+        <label>Password
+          <input type="password" name="password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters" />
+        </label>
+        <label>I am registering as
+          <select name="role">
+            <option value="PATIENT">Patient</option>
+            <option value="DOCTOR">Doctor</option>
+          </select>
+        </label>
+        <label id="specializationField" hidden>Specialization
+          <input type="text" name="specialization" placeholder="e.g. Cardiology" />
+        </label>
+        <div class="form-error" id="registerError" hidden></div>
+        <button class="btn btn-primary btn-block" type="submit">Create account</button>
+        <p class="auth-switch">Already registered? <button type="button" class="link-btn" data-nav="login">Log in</button></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- DOCTORS -->
+  <section class="view" id="view-doctors" hidden>
+    <div class="section-head">
+      <p class="eyebrow">Directory</p>
+      <h2>Find a doctor</h2>
+      <div class="filter-row">
+        <input type="text" id="specFilter" placeholder="Filter by specialization (e.g. Dermatology)" />
+        <button class="btn btn-outline" id="specFilterBtn">Filter</button>
+        <button class="btn btn-ghost" id="specFilterClear">Clear</button>
+      </div>
+    </div>
+    <div class="doctor-grid" id="doctorGrid">
+      <p class="empty-state">Loading doctors…</p>
+    </div>
+  </section>
+
+  <!-- SLOT BOOKING -->
+  <section class="view" id="view-booking" hidden>
+    <div class="section-head">
+      <p class="eyebrow" id="bookingSpec">Specialty</p>
+      <h2 id="bookingDoctorName">Doctor</h2>
+    </div>
+    <div class="booking-layout">
+      <div class="booking-panel">
+        <label>Appointment date
+          <input type="date" id="slotDate" />
+        </label>
+        <label>Reason for visit
+          <textarea id="visitReason" rows="3" placeholder="Briefly describe the reason for your visit"></textarea>
+        </label>
+        <div class="form-error" id="bookingError" hidden></div>
+        <div class="form-success" id="bookingSuccess" hidden></div>
+      </div>
+      <div class="slot-panel">
+        <h3>Open slots</h3>
+        <div class="slot-grid" id="slotGrid">
+          <p class="empty-state">Pick a date to see open slots.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD (role-dependent) -->
+  <section class="view" id="view-dashboard" hidden>
+    <div class="section-head">
+      <p class="eyebrow" id="dashEyebrow">My chart</p>
+      <h2 id="dashTitle">Your appointments</h2>
+    </div>
+
+    <!-- Patient dashboard -->
+    <div id="dashPatient" hidden>
+      <div class="table-wrap">
+        <table class="chart-table" id="patientTable">
+          <thead>
+            <tr><th>Doctor</th><th>Specialty</th><th>Date</th><th>Time</th><th>Status</th><th></th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="empty-state" id="patientEmpty" hidden>No appointments yet — find a doctor to book your first visit.</p>
+    </div>
+
+    <!-- Doctor dashboard -->
+    <div id="dashDoctor" hidden>
+      <div class="table-wrap">
+        <table class="chart-table" id="doctorTable">
+          <thead>
+            <tr><th>Patient</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Update</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="empty-state" id="doctorEmpty" hidden>No appointments on your schedule yet.</p>
+    </div>
+
+    <!-- Admin dashboard -->
+    <div id="dashAdmin" hidden>
+      <div class="stat-row" id="statRow"></div>
+      <div class="panel-card" id="reminderPanel"></div>
+      <h3 class="subhead">All users</h3>
+      <div class="table-wrap">
+        <table class="chart-table" id="adminTable">
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Role</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" hidden></div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <span>Meridian Clinic — Appointment Desk</span>
+    <span id="apiStatus" class="api-status">Connecting…</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
